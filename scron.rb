@@ -3,7 +3,7 @@ class Scron < Formula
   homepage "https://hughbien.com/scron"
   url "https://github.com/hughbien/scron/archive/v0.1.1.tar.gz"
   version "0.1.1"
-  sha256 "d7f0489e3b71ee9275f8be1e45aa4f0cef7aee193bafa2dff725c09bdff825c8"
+  sha256 "34568403574994e19753c16d978c1a30a0f74236b60d7fd4791afe504449e161"
   head "https://github.com/hughbien/scron.git"
 
   depends_on "crystal" => [:build, :recommended, "0.36.1"]
