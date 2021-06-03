@@ -9,8 +9,12 @@ class Thyme < Formula
   depends_on "crystal" => [:build, :recommended, "1.0.0"]
 
   def install
-    system(ENV["HOMEBREW_RESHIM"]) unless ENV["HOMEBREW_RESHIM"].to_s.empty?
-    system "make"
+    make_args = {}
+    if ENV["HOMEBREW_SHIM"] # eg HOMEBREW_SHIM=`asdf which crystal`
+      dir = File.dirname(ENV["HOMEBREW_SHIM"])
+      make_args["PATH"] = [ENV["PATH"], dir].join(":") # add shim dir to PATH
+    end
+    system "make", *make_args.compact.map { |k,v| "#{k}=#{v}" }
     bin.install "bin/thyme"
     ohai "Thanks for using Thyme! 🍅"
   end
