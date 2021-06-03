@@ -11,11 +11,11 @@ class Thyme < Formula
   def install
     make_args = {}
 
-    # If Crystal is shimmed, we need to know its shimmed bin directory. Examples:
-    # HOMEBREW_SHIM=$(brew --prefix crystal)/bin
-    # HOMEBREW_SHIM=$(asdf which crystal)/../../embedded/bin
-    if ENV["HOMEBREW_SHIM"]
-      dir = File.expand_path(ENV["HOMEBREW_SHIM"])
+    # If using a non-Homebrew Crystal, we need to know its bin directory. Examples:
+    # HOMEBREW_BIN=$(asdf which crystal)/../../embedded/bin
+    # HOMEBREW_BIN=/path/to/bin
+    if ENV["HOMEBREW_BIN"]
+      dir = File.expand_path(ENV["HOMEBREW_BIN"])
       make_args["PATH"] = [ENV["PATH"], dir].join(":") # add shim dir to PATH
       make_args["SHARDS"] = File.join(dir, "shards")
     end
