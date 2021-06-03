@@ -6,10 +6,13 @@ class Thyme < Formula
   sha256 "124b5cbb0ced9dda4f96bfa312b1d6945933310ebf81d36afbaa2727f5d0ee02"
   head "https://github.com/hughbien/thyme.git"
 
-  depends_on "crystal" => [:build, :recommended, "0.36.1"]
+  depends_on "crystal" => [:build, :recommended, "1.0.0"]
 
   def install
-    system "make"
+    make_args = {
+      "SHARDS" => ENV["HOMEBREW_SHARDS"]
+    }
+    system "make", *make_args.compact.map { |k,v| "#{k}=#{v}" }
     bin.install "bin/thyme"
     ohai "Thanks for using Thyme! 🍅"
   end
