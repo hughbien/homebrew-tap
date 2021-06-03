@@ -9,10 +9,8 @@ class Thyme < Formula
   depends_on "crystal" => [:build, :recommended, "1.0.0"]
 
   def install
-    make_args = {
-      "SHARDS" => ENV["HOMEBREW_SHARDS"]
-    }
-    system "make", *make_args.compact.map { |k,v| "#{k}=#{v}" }
+    system(ENV["HOMEBREW_RESHIM"]) unless ENV["HOMEBREW_RESHIM"].to_s.empty?
+    system "make"
     bin.install "bin/thyme"
     ohai "Thanks for using Thyme! 🍅"
   end
