@@ -10,10 +10,22 @@ class Thyme < Formula
 
   def install
     make_args = {}
-    if ENV["HOMEBREW_SHIM"] # eg HOMEBREW_SHIM=`asdf which crystal`
-      dir = File.dirname(ENV["HOMEBREW_SHIM"])
+
+    # If Crystal is shimmed, we need to know its shimmed bin directory. Examples:
+    # HOMEBREW_SHIM=$(brew --prefix crystal)/bin
+    # HOMEBREW_SHIM=$(asdf which crystal)/../../embedded/bin
+    if ENV["HOMEBREW_SHIM"]
+      dir = File.expand_path(ENV["HOMEBREW_SHIM"])
       make_args["PATH"] = [ENV["PATH"], dir].join(":") # add shim dir to PATH
+      make_args["SHARDS"] = File.join(dir, "shards")
     end
+
+    # For Asdf, you'll need to load the crystal path also:
+    # HOMEBREW_CRYSTAL_PATH=`crystal env CRYSTAL_PATH`
+    if ENV["HOMEBREW_CRYSTAL_PATH"]
+      make_args["CRYSTAL_PATH"] = ENV["HOMEBREW_CRYSTAL_PATH"]
+    end
+
     system "make", *make_args.compact.map { |k,v| "#{k}=#{v}" }
     bin.install "bin/thyme"
     ohai "Thanks for using Thyme! 🍅"
